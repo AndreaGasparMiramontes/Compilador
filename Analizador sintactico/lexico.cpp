@@ -1,7 +1,9 @@
 #include <iostream>
-#include <string>
 
-using namespace std;
+lexico()
+{
+    lexico::cadena = "";
+}
 
 
 bool is_txt(char c)
@@ -68,17 +70,8 @@ bool is_and(char c)
         return false;
 }
 
-int main()
+int id_tipo(string cadena)
 {
-    int contador;
-    int tipo_n;
-    string tipo_s;
-    int estado = 0;
-    string text;
-    string cadena = "";
-    cout << "Intoduce el texto a analizar: " << "\n";
-    getline(cin,text);
-    text = text + " ";
     for(char c : text)
     {
         switch(estado)
@@ -447,3 +440,5 @@ int main()
             }
         }
     }
+}
+
