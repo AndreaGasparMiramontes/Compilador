@@ -115,16 +115,100 @@ while(not accepted):
     input()
     estado = pila.top()##Primer elemento matriz
 
-    #########Segundo elemento matriz##########                           <- NO ACABADO 
+    #########Segundo elemento matriz########## 
     if elementos[a]['token'] == "id":
         recibido = 0
-    elif elementos[a]['token'] == "OpSuma":
+    elif elementos[a]['token'] == "constante":
         recibido = 1
-    elif elementos[a]['token'] == "pesos":
+    elif elementos[a]['token'] == "constante":
         recibido = 2
-
-    if isinstance(estado, EP):
+    elif elementos[a]['token'] == "cadena":
         recibido = 3
+    elif elementos[a]['token'] == "Tipo de dato":
+        recibido = 4
+    elif elementos[a]['token'] == "OpSuma":
+        recibido = 5
+    elif elementos[a]['token'] == "OpMul":
+        recibido = 6
+    elif elementos[a]['token'] == "OpRelacional":
+        recibido = 7
+    elif elementos[a]['token'] == "OpLogico":
+        recibido = 8
+    elif elementos[a]['token'] == "OpLogico":
+        recibido = 9
+    elif elementos[a]['token'] == "OpRelacional":
+        recibido = 10
+    elif elementos[a]['token'] == "OpRelacional":
+        recibido = 11
+    elif elementos[a]['token'] == "punto y coma":
+        recibido = 12
+    elif elementos[a]['token'] == "coma":
+        recibido = 13
+    elif elementos[a]['token'] == "parentesis izq":
+        recibido = 14
+    elif elementos[a]['token'] == "parentesis der":
+        recibido = 15
+    elif elementos[a]['token'] == "llave izq":
+        recibido = 16
+    elif elementos[a]['token'] == "llave der":
+        recibido = 17
+    elif elementos[a]['token'] == "asignación":
+        recibido = 18
+    elif elementos[a]['token'] == "condicional SI":
+        recibido = 19
+    elif elementos[a]['token'] == "While":
+        recibido = 20
+    elif elementos[a]['token'] == "Return":
+        recibido = 21
+    elif elementos[a]['token'] == "Else":
+        recibido = 22
+    elif elementos[a]['token'] == "pesos":
+        recibido = 23
+    if isinstance(estado, EP):
+        if estado.name == "Programa":
+            recibido = 24
+        elif estado.name == "Definiciones":
+            recibido = 25 
+        elif estado.name == "Definicion":
+            recibido = 26
+        elif estado.name == "DefVar":
+            recibido = 27
+        elif estado.name == "ListaVar":
+            recibido = 28
+        elif estado.name == "DefFunc":
+            recibido = 29
+        elif estado.name == "Parametros":
+            recibido = 30
+        elif estado.name == "ListaParam":
+            recibido = 31
+        elif estado.name == "BloqFunc":
+            recibido = 32
+        elif estado.name == "DefLocales":
+            recibido = 33
+        elif estado.name == "DefLocal":
+            recibido = 34
+        elif estado.name == "Sentencias":
+            recibido = 35
+        elif estado.name == "Sentencia":
+            recibido = 36
+        elif estado.name == "Otro":
+            recibido = 37
+        elif estado.name == "Bloque":
+            recibido = 38
+        elif estado.name == "ValorRegresa":
+            recibido = 39
+        elif estado.name == "Argumentos":
+            recibido = 40
+        elif estado.name == "ListaArgumentos":
+            recibido = 41
+        elif estado.name == "Termino":
+            recibido = 42
+        elif estado.name == "LlamadaFunc":
+            recibido = 43
+        elif estado.name == "SentenciaBloque":
+            recibido = 44
+        elif estado.name == "Expresion":
+            recibido = 45
         e_cont = pila.pop()
         e = True
         estado = pila.top()
@@ -143,6 +227,8 @@ while(not accepted):
         pila.push(elementos[a]['lexema'])
         pila.push(accion)
         a+=1
+
+    ####REGLAS####
     elif accion == -2:  ####R0
         print("Cadena aceptada")
         pila.pop()
@@ -155,7 +241,9 @@ while(not accepted):
         c.Definiciones = pila.pop()#element
         pila.push(c)
     elif accion == -4:  ####R2
-        pass
+        c = EP("Definiciones")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -5:  ####R3
         c = EP("Definiciones")
         pila.pop()#num
@@ -180,12 +268,14 @@ while(not accepted):
         pila.pop()#num
         c.ListaVar = pila.pop()#element
         pila.pop()#num
-        c.Identificador = pila.pop()#element
+        c.identificador = pila.pop()#element
         pila.pop()#num
         c.tipo = pila.pop()#element
         pila.push(c)
     elif accion == -9:  ####R7
-        pass
+        c = EP("ListaVar")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -10:  ####R8
         c = EP("ListaVar")
         pila.pop()#num
@@ -211,7 +301,9 @@ while(not accepted):
         c.tipo = pila.pop()#element
         pila.push(c)
     elif accion == -12:  ####R10
-        pass
+        c = EP("Parametros")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -13:  ####R11
         c = EP("Parametros")
         pila.pop()#num
@@ -222,7 +314,9 @@ while(not accepted):
         c.tipo = pila.pop()#element
         pila.push(c)
     elif accion == -14:  ####R12
-        pass
+        c = EP("ListaParam")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -15:  ####R13
         c = EP("ListaParam")
         pila.pop()#num
@@ -244,7 +338,9 @@ while(not accepted):
         c.llaveabrir = pila.pop()#element
         pila.push(c)
     elif accion == -17:  ####R15
-        pass
+        c = EP("DefLocales")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -18:  ####R16
         c = EP("DefLocales")
         pila.pop()#num
@@ -263,7 +359,9 @@ while(not accepted):
         c.Sentencia = pila.pop()#element
         pila.push(c)
     elif accion == -21:  ####R19
-        pass
+        c = EP("Sentencias")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -22:  ####R20
         c = EP("Sentencias")
         pila.pop()#num
@@ -327,59 +425,186 @@ while(not accepted):
         c.LlamadaFunc = pila.pop()#element
         pila.push(c)
     elif accion == -28:  ####R26
-        pass
+        c = EP("Otro")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -29:  ####R27
-        pass
+        c = EP("Otro")
+        pila.pop()#num
+        c.SentenciaBloque = pila.pop()#element
+        pila.pop()#num
+        c.palabraelse = pila.pop()#element
+        pila.push(c)
     elif accion == -30:  ####R28
-        pass
+        c = EP("Bloque")
+        pila.pop()#num
+        c.llavecerrar = pila.pop()#element
+        pila.pop()#num
+        c.Sentencias = pila.pop()#element
+        pila.pop()#num
+        c.llaveabrir = pila.pop()#element
+        pila.push(c)
     elif accion == -31:  ####R29
-        pass
+        c = EP("ValorRegresa")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -32:  ####R30
-        pass
+        c = EP("ValorRegresa")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -33:  ####R31
-        pass
+        c = EP("Argumentos")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -34:  ####R32
-        pass
+        c = EP("Argumentos")
+        pila.pop()#num
+        c.ListaArgumentos = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -35:  ####R33
-        pass
+        c = EP("ListaArgumentos")
+        c.extra = None #element
+        pila.push(c)
     elif accion == -36:  ####R34
-        pass
+        c = EP("ListaArgumentos")
+        pila.pop()#num
+        c.ListaArgumentos = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.coma = pila.pop()#element
+        pila.push(c)
     elif accion == -37:  ####R35
-        pass
+        c = EP("Termino")
+        pila.pop()#num
+        c.LlamadaFunc = pila.pop()#element
+        pila.push(c)
     elif accion == -38:  ####R36
-        pass
+        c = EP("Termino")
+        pila.pop()#num
+        c.identificador = pila.pop()#element
+        pila.push(c)
     elif accion == -39:  ####R37
-        pass
+        c = EP("Termino")
+        pila.pop()#num
+        c.entero = pila.pop()#element
+        pila.push(c)
     elif accion == -40:  ####R38
-        pass
+        c = EP("Termino")
+        pila.pop()#num
+        c.real = pila.pop()#element
+        pila.push(c)
     elif accion == -41:  ####R39
-        pass
+        c = EP("Termino")
+        pila.pop()#num
+        c.cadena = pila.pop()#element
+        pila.push(c)
     elif accion == -42:  ####R40
-        pass
+        c = EP("LlamadaFunc")
+        pila.pop()#num
+        c.parentesiscerrar = pila.pop()#element
+        pila.pop()#num
+        c.Argumentos = pila.pop()#element
+        pila.pop()#num
+        c.parentesisabrir = pila.pop()#element
+        pila.pop()#num
+        c.identificador = pila.pop()#element
+        pila.push(c)
     elif accion == -43:  ####R41
-        pass
+        c = EP("SentenciaBloque")
+        pila.pop()#num
+        c.Sentencia = pila.pop()#element
+        pila.push(c)
     elif accion == -44:  ####R42
-        pass
+        c = EP("SentenciaBloque")
+        pila.pop()#num
+        c.Bloque = pila.pop()#element
+        pila.push(c)
     elif accion == -45:  ####R43
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.parentesiscerrar = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.parentesisabrir = pila.pop()#element
+        pila.push(c)
     elif accion == -46:  ####R44
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opSuma = pila.pop()#element
+        pila.push(c)
     elif accion == -47:  ####R45
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opNot = pila.pop()#element
+        pila.push(c)
     elif accion == -48:  ####R46
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opMul = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -49:  ####R47
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opSuma = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -50:  ####R48
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opRelac = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -51:  ####R49
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opIgualdad = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -52:  ####R50
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opAnd = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -53:  ####R51
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.pop()#num
+        c.opOr = pila.pop()#element
+        pila.pop()#num
+        c.Expresion = pila.pop()#element
+        pila.push(c)
     elif accion == -54:  ####R52
-        pass
+        c = EP("Expresion")
+        pila.pop()#num
+        c.Termino = pila.pop()#element
+        pila.push(c)
 
     
 
