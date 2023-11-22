@@ -6,183 +6,183 @@ class EP:
         cadena = self.name
         cadena = cadena + "\n"
         try:
-            cadena = cadena + str(self.Definiciones)
+            cadena = cadena + " " + str(self.coma)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Definicion)
+            cadena = cadena + " " + str(self.tipo)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.DefVar)
+            cadena = cadena + " " + str(self.identificador)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.DefFunc)
+            cadena = cadena + " " + str(self.Definiciones)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.puntoycoma)
+            cadena = cadena + " " + str(self.Definicion)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.ListaVar)
+            cadena = cadena + " " + str(self.DefVar)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.identificador)
+            cadena = cadena + " " + str(self.DefFunc)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.coma)
+            cadena = cadena + " " + str(self.ListaVar)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.BloqFunc)
+            cadena = cadena + " " + str(self.BloqFunc)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.parentesiscerrar)
+            cadena = cadena + " " + str(self.parentesiscerrar)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Parametros)
+            cadena = cadena + " " + str(self.Parametros)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.parentesisabrir)
+            cadena = cadena + " " + str(self.parentesisabrir)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.tipo)
+            cadena = cadena + " " + str(self.ListaParam)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.ListaParam)
+            cadena = cadena + " " + str(self.llavecerrar)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.llavecerrar)
+            cadena = cadena + " " + str(self.DefLocales)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.DefLocales)
+            cadena = cadena + " " + str(self.llaveabrir)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.llaveabrir)
+            cadena = cadena + " " + str(self.DefLocal)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.DefLocal)
+            cadena = cadena + " " + str(self.Sentencia)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Sentencia)
+            cadena = cadena + " " + str(self.Sentencias)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Sentencias)
+            cadena = cadena + " " + str(self.Expresion)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Expresion)
+            cadena = cadena + " " + str(self.igual)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.igual)
+            cadena = cadena + " " + str(self.Otro)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Otro)
+            cadena = cadena + " " + str(self.SentenciaBloque)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.SentenciaBloque)
+            cadena = cadena + " " + str(self.palabraif)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.palabraif)
+            cadena = cadena + " " + str(self.Bloque)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Bloque)
+            cadena = cadena + " " + str(self.palabrawhile)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.palabrawhile)
+            cadena = cadena + " " + str(self.ValorRegresa)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.ValorRegresa)
+            cadena = cadena + " " + str(self.palabrareturn)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.palabrareturn)
+            cadena = cadena + " " + str(self.LlamadaFunc)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.LlamadaFunc)
+            cadena = cadena + " " + str(self.palabraelse)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.palabraelse)
+            cadena = cadena + " " + str(self.ListaArgumentos)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.ListaArgumentos)
+            cadena = cadena + " " + str(self.entero)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.entero)
+            cadena = cadena + " " + str(self.real)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.real)
+            cadena = cadena + " " + str(self.cadena)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.cadena)
+            cadena = cadena + " " + str(self.Argumentos)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Argumentos)
+            cadena = cadena + " " + str(self.opSuma)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opSuma)
+            cadena = cadena + " " + str(self.opNot)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opNot)
+            cadena = cadena + " " + str(self.opMul)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opMul)
+            cadena = cadena + " " + str(self.opRelac)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opRelac)
+            cadena = cadena + " " + str(self.opIgualdad)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opIgualdad)
+            cadena = cadena + " " + str(self.opAnd)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opAnd)
+            cadena = cadena + " " + str(self.opOr)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.opOr)
+            cadena = cadena + " " + str(self.Termino)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.Termino)
+            cadena = cadena + " " + str(self.extra)
         except AttributeError:
             pass
         try:
-            cadena = cadena + str(self.extra)
+            cadena = cadena + " " + str(self.puntoycoma)
         except AttributeError:
             pass
 
