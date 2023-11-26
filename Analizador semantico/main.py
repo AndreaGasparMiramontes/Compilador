@@ -16,6 +16,7 @@ arbol = sintactico.analizador(elementos)
 #print(arbol)
 variables = []
 funciones = []
+arbol_2 = arbol
 if (arbol):
     arbol = arbol.Definiciones
     while(arbol):                   ##PARA DESPLAZARSE EN DEFINICIONES
@@ -84,6 +85,123 @@ if (arbol):
             arbol = arbol.Definiciones.extra
         except AttributeError:
             arbol = arbol.Definiciones
+
+
+if(arbol_2):
+    arbol_2 = arbol_2.Definiciones
+    while(arbol_2):                   ##PARA DESPLAZARSE EN DEFINICIONES
+        definicion = arbol_2.Definicion
+        ###################################ASIGNACIONES DE VARIABLES########################################
+        deffun = None
+        try:
+            deffun = definicion.DefFunc
+        except AttributeError:
+            pass
+        if(deffun):
+            funcion = deffun.identificador
+            bloc = deffun.BloqFunc
+            try:
+                bloc = bloc.DefLocales.extra        ##Se verifica que exista algo dentro de la funcion
+            except AttributeError:
+                bloc = bloc.DefLocales
+            while(bloc):
+                try:
+                    sentencia = bloc.DefLocal.Sentencia.identificador     ##Se verifica que se tenga una sentencia de asignacion
+                    sentencia = bloc.DefLocal.Sentencia
+                except AttributeError:
+                    sentencia = None
+                if(sentencia):
+                    id = sentencia.identificador
+                    ##########################ASIGNACIONES DIRECTAS#############################
+                    try:
+                        expresion = sentencia.Expresion.Termino
+                    except AttributeError:
+                        expresion = None
+                    if(expresion):
+                        for a in variables:
+                            if(a["id"]==id):
+                                try:
+                                    a["valor"] = expresion.entero
+                                except AttributeError:
+                                    try:
+                                        a["valor"] = expresion.real
+                                    except AttributeError:
+                                        try:
+                                            a["valor"] = expresion.cadena
+                                        except AttributeError:
+                                            for b in variables:
+                                                if(b["id"]==expresion.identificador):
+                                                    a["valor"] = b["valor"]
+                    ###########################################################################
+
+                    try:
+                        expresion = sentencia.Expresion.Expresion2
+                        expresion = sentencia.Expresion
+                    except AttributeError:
+                        expresion = None
+                    if(expresion):
+                        a=0
+                        b=0
+                        try:
+                            a = expresion.Expresion.Termino.entero
+                        except AttributeError:
+                            try:
+                                a = expresion.Expresion.Termino.real
+                            except AttributeError:
+                                try:
+                                    a = expresion.Expresion.Termino.cadena
+                                except AttributeError:
+                                    for b in variables:
+                                        if(b["id"]==expresion.Expresion.Termino.identificador):
+                                            a = b["valor"]
+                        try:
+                            b = expresion.Expresion2.Termino.entero
+                        except AttributeError:
+                            try:
+                                b = expresion.Expresion2.Termino.real
+                            except AttributeError:
+                                try:
+                                    b = expresion.Expresion2.Termino.cadena
+                                except AttributeError:
+                                    for c in variables:
+                                        if(c["id"]==expresion.Expresion2.Termino.identificador):
+                                            b = c["valor"]
+
+                        try:
+                            operacion = expresion.opSuma
+                        except AttributeError:
+                            try:
+                                operacion = expresion.opMul
+                            except AttributeError:
+                                operacion = None
+                        if(operacion == "+"):
+                            for i in variables:
+                                if(i["id"] == id):
+                                    i["valor"]=a+b
+                        elif(operacion == "-"):
+                            for i in variables:
+                                if(i["id"] == id):
+                                    i["valor"]=a-b
+                        elif(operacion == "*"):
+                            for i in variables:
+                                if(i["id"] == id):
+                                    i["valor"]=int(a)*int(b)
+                        elif(operacion == "/"):
+                            for i in variables:
+                                if(i["id"] == id):
+                                    i["valor"]=a/b
+                            
+
+                try:
+                    bloc = bloc.DefLocales.extra
+                except AttributeError:
+                    bloc = bloc.DefLocales
+        ###################################################################################################
+
+        try:
+            arbol_2 = arbol_2.Definiciones.extra
+        except AttributeError:
+            arbol_2 = arbol_2.Definiciones
 
 print("\n")
 print("FUNCIONES")

@@ -552,7 +552,7 @@ def analizador(elementos):
             pila.pop()#num
             c.opMul = pila.pop()#element
             pila.pop()#num
-            c.Expresion = pila.pop()#element
+            c.Expresion2 = pila.pop()#element
             pila.push(c)
         elif accion == -49:  ####R47
             c = EP("Expresion")
@@ -561,7 +561,7 @@ def analizador(elementos):
             pila.pop()#num
             c.opSuma = pila.pop()#element
             pila.pop()#num
-            c.Expresion = pila.pop()#element
+            c.Expresion2 = pila.pop()#element
             pila.push(c)
         elif accion == -50:  ####R48
             c = EP("Expresion")
@@ -570,7 +570,7 @@ def analizador(elementos):
             pila.pop()#num
             c.opRelac = pila.pop()#element
             pila.pop()#num
-            c.Expresion = pila.pop()#element
+            c.Expresion2 = pila.pop()#element
             pila.push(c)
         elif accion == -51:  ####R49
             c = EP("Expresion")
@@ -579,7 +579,7 @@ def analizador(elementos):
             pila.pop()#num
             c.opIgualdad = pila.pop()#element
             pila.pop()#num
-            c.Expresion = pila.pop()#element
+            c.Expresion2 = pila.pop()#element
             pila.push(c)
         elif accion == -52:  ####R50
             c = EP("Expresion")
@@ -588,7 +588,7 @@ def analizador(elementos):
             pila.pop()#num
             c.opAnd = pila.pop()#element
             pila.pop()#num
-            c.Expresion = pila.pop()#element
+            c.Expresion2 = pila.pop()#element
             pila.push(c)
         elif accion == -53:  ####R51
             c = EP("Expresion")
@@ -597,7 +597,7 @@ def analizador(elementos):
             pila.pop()#num
             c.opOr = pila.pop()#element
             pila.pop()#num
-            c.Expresion = pila.pop()#element
+            c.Expresion2 = pila.pop()#element
             pila.push(c)
         elif accion == -54:  ####R52
             c = EP("Expresion")
