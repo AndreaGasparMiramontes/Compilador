@@ -134,6 +134,7 @@ if(arbol_2):
                                                     a["valor"] = b["valor"]
                     ###########################################################################
 
+                    #######################SUMAS O MULTIPLICACIONES############################
                     try:
                         expresion = sentencia.Expresion.Expresion2
                         expresion = sentencia.Expresion
@@ -190,7 +191,7 @@ if(arbol_2):
                             for i in variables:
                                 if(i["id"] == id):
                                     i["valor"]=a/b
-                            
+                    ###########################################################################
 
                 try:
                     bloc = bloc.DefLocales.extra
