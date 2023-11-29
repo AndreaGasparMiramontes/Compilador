@@ -1,6 +1,7 @@
 class EP:
     def __init__(self, name: str):
         self.name = name
+        self.num = 1
 
     def __str__(self) -> str:
         cadena = self.name

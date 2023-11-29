@@ -108,59 +108,11 @@ def analizador(elementos):
     a = 0
 
     while(not accepted):
-        #print(pila)
-        ##input()
+        # print(pila)
+        # input()
         estado = pila.top()##Primer elemento matriz
+        recibido = elementos[a]['num']
 
-        #########Segundo elemento matriz########## 
-        if elementos[a]['token'] == "id":
-            recibido = 0
-        elif elementos[a]['token'] == "constante":
-            recibido = 1
-        elif elementos[a]['token'] == "constante":
-            recibido = 2
-        elif elementos[a]['token'] == "cadena":
-            recibido = 3
-        elif elementos[a]['token'] == "Tipo de dato":
-            recibido = 4
-        elif elementos[a]['token'] == "OpSuma":
-            recibido = 5
-        elif elementos[a]['token'] == "OpMul":
-            recibido = 6
-        elif elementos[a]['token'] == "OpRelacional":
-            recibido = 7
-        elif elementos[a]['token'] == "OpLogico":
-            recibido = 8
-        elif elementos[a]['token'] == "OpLogico":
-            recibido = 9
-        elif elementos[a]['token'] == "OpRelacional":
-            recibido = 10
-        elif elementos[a]['token'] == "OpRelacional":
-            recibido = 11
-        elif elementos[a]['token'] == "punto y coma":
-            recibido = 12
-        elif elementos[a]['token'] == "coma":
-            recibido = 13
-        elif elementos[a]['token'] == "parentesis izq":
-            recibido = 14
-        elif elementos[a]['token'] == "parentesis der":
-            recibido = 15
-        elif elementos[a]['token'] == "llave izq":
-            recibido = 16
-        elif elementos[a]['token'] == "llave der":
-            recibido = 17
-        elif elementos[a]['token'] == "asignación":
-            recibido = 18
-        elif elementos[a]['token'] == "condicional SI":
-            recibido = 19
-        elif elementos[a]['token'] == "While":
-            recibido = 20
-        elif elementos[a]['token'] == "Return":
-            recibido = 21
-        elif elementos[a]['token'] == "Else":
-            recibido = 22
-        elif elementos[a]['token'] == "pesos":
-            recibido = 23
         if isinstance(estado, EP):
             if estado.name == "Programa":
                 recibido = 24

@@ -258,7 +258,7 @@ def analizador(arbol):
                                     a["valor"] = get_termino(expresion)
                         ###########################################################################
 
-                        #######################SUMAS O MULTIPLICACIONES############################
+                        #########################OPERACIONES ARITMETICAS###########################
                         try:
                             operacion = sentencia.Expresion.opSuma
                             expresion = sentencia.Expresion
@@ -288,6 +288,38 @@ def analizador(arbol):
                         ###########################################################################
 
                     try:
+                        sentencia = bloc.DefLocal.Sentencia.palabraif     ##Se verifica que se tenga una sentencia de asignacion
+                        sentencia = bloc.DefLocal.Sentencia
+                    except AttributeError:
+                        sentencia = None
+                    if(sentencia):
+                        condicion = sentencia.Expresion
+                        try:
+                            operando = condicion.opIgualdad
+                        except AttributeError:
+                            try:
+                                operando = condicion.opRelac
+                            except AttributeError:
+                                operando = None
+
+                        a = get_termino(condicion.Expresion.Termino)
+                        b = get_termino(condicion.Expresion2.Termino)
+                        print("MOV AX,",a)
+                        print("MOV BX,",b)
+                        print("CMP AX,BX")
+                        
+                        if(operando == "=="):
+                            print("JE etiqueta")
+                        elif(operando == ">"):
+                            print("JA etiqueta")
+                        elif(operando == ">="):
+                            print("JAE etiqueta")
+                        elif(operando == "<"):
+                            print("JB etiqueta")
+                        elif(operando == "<="):
+                            print("JBE etiqueta")
+
+                    try:
                         bloc = bloc.DefLocales.extra
                     except AttributeError:
                         bloc = bloc.DefLocales
@@ -310,3 +342,12 @@ def analizador(arbol):
     for a in variables:
         print(a["id"],"\t",a["tipo"],"\t",a["valor"],"\t",a["contexto"])
 
+
+# NOTAS PORQUE ESTOY VIENDO COMO HACER EL if
+# CMP PARA COMPARAR QUE ESTÁ PASANDO
+# CMP AX,BX
+# JE ES PARA COMPARAR SI SON IGUALES
+# JA SI ES MAYOR (AX>BX)
+# JAE SI ES MAYOR O IGUAL (AX>=BX)
+# JB SI ES MENOR (AX<BX)
+# JBE SI ES MENOR O IGUAL (AX<=BX)

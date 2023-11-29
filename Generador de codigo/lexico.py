@@ -16,83 +16,83 @@ def analizador(cadena):
                     elif cadena[contador].isalpha() or cadena[contador]=='_':
                         estado=4
                         lexema+=cadena[contador]
-                        token='id'
-                        num = 1
+                        token='identificador'
+                        num = 0
                     elif cadena[contador].isdigit():
                         estado=3
                         lexema+=cadena[contador]
-                        token='constante'
-                        num = 13
+                        token='entero'
+                        num = 1
                     elif cadena[contador]=='$':
                         estado=20
                         lexema+=cadena[contador]
                         token='pesos'
-                        num = 18
+                        num = 23
                     elif cadena[contador]=='=':
                         lexema+=cadena[contador]
                         token='asignación'
-                        num = 8
+                        num = 18
                         estado=5
                     elif cadena[contador] == "(":
                         estado=20 
                         lexema+=cadena[contador]
                         token='parentesis izq'
-                        num = 4
+                        num = 14
                     elif cadena[contador] == ")":
                         estado=20 
                         lexema+=cadena[contador]
                         token='parentesis der'
-                        num = 5
+                        num = 15
                     elif cadena[contador] == "{":
                         estado=20 
                         lexema+=cadena[contador]
                         token='llave izq'
-                        num = 6
+                        num = 16
                     elif cadena[contador] == "}":
                         estado=20 
                         lexema+=cadena[contador]
                         token='llave der'
-                        num = 7
+                        num = 17
                     elif cadena[contador] == ";":
                         estado=20 
                         lexema+=cadena[contador]
                         token='punto y coma'
-                        num = 2
+                        num = 12
                     elif cadena[contador] == ",":
                         estado=20 
                         lexema+=cadena[contador]
                         token='coma'
-                        num = 3
+                        num = 13
                     elif cadena[contador] == "+" or cadena[contador] == "-":
                         estado=20 
                         lexema+=cadena[contador]
                         token='OpSuma'
-                        num = 14
+                        num = 5
                     elif cadena[contador] == "*" or cadena[contador] == "/":
                         estado=20 
                         lexema+=cadena[contador]
                         token='OpMul'
-                        num = 16
+                        num = 6
                     elif cadena[contador] == ">" or cadena[contador] == "<":
                         estado=6 
                         lexema+=cadena[contador]
                         token='OpRelacional'
-                        num = 17
+                        num = 7
                     elif cadena[contador] == "!":
                         estado=7 
                         lexema+=cadena[contador]
-                        token='OpRelacional'
-                        num = 17
+                        token='OpNot'
+                        num = 10
                     elif cadena[contador] == "|":
                         estado=8 
                         lexema+=cadena[contador]
-                        token='OpLogico'
-                        num = 15
+                        token='OpOr'
+                        num = 8
                     elif cadena[contador] == "&":
                         estado=9 
                         lexema+=cadena[contador]
-                        token='OpLogico'
-                        num = 15
+                        token='OpAnd'
+                        num = 9
                     else:
                         estado=20
                         token='error'
@@ -102,16 +102,16 @@ def analizador(cadena):
                 elif estado==2:
                     if cadena[contador].isdigit():
                         lexema+=cadena[contador]
-                        token='constante'
-                        num = 13
+                        token='real'
+                        num = 2
                         contador+=1
                     else:
                         estado=20
                 elif estado==3:
                     if cadena[contador].isdigit():
                         lexema+=cadena[contador]
-                        token='constante'
-                        num = 13
+                        token='entero'
+                        num = 1
                         contador+=1
                     elif cadena[contador] == '.':
                         estado = 2
@@ -125,8 +125,8 @@ def analizador(cadena):
                     if cadena[contador].isdigit() or cadena[contador].isalpha() or cadena[contador]=='_':
                         estado=4
                         lexema+=cadena[contador]
-                        token='id'
-                        num = 1
+                        token='identificador'
+                        num = 0
                         contador+=1
                     else:
                         estado=20
@@ -134,8 +134,8 @@ def analizador(cadena):
                     if cadena[contador]=='=':
                         estado=20
                         lexema+=cadena[contador]
-                        token='opRelacional'
-                        num = 17
+                        token='opIgualdad'
+                        num = 11
                         contador+=1
                     else:
                         estado=20
@@ -144,7 +144,7 @@ def analizador(cadena):
                         estado=20
                         lexema+=cadena[contador]
                         token='opRelacional'
-                        num = 17
+                        num = 7
                         contador+=1
                     else:
                         estado=20
@@ -152,8 +152,8 @@ def analizador(cadena):
                     if cadena[contador]=='=':
                         estado=20
                         lexema+=cadena[contador]
-                        token='opRelacional'
-                        num = 17
+                        token='opIgualdad'
+                        num = 11
                         contador+=1
                     else:
                         estado=20
@@ -162,8 +162,8 @@ def analizador(cadena):
                     if cadena[contador]=='|':
                         estado=20
                         lexema+=cadena[contador]
-                        token='opLogico'
-                        num = 15
+                        token='opOr'
+                        num = 8
                         contador+=1
                     else:
                         estado=20
@@ -173,13 +173,13 @@ def analizador(cadena):
                     if cadena[contador]=='&':
                         estado=20
                         lexema+=cadena[contador]
-                        token='opLogico'
-                        num = 15
+                        token='opAnd'
+                        num = 9
                         contador+=1
-                    else:
-                        estado=20
-                        token = 'error'
-                        num = -1
+                else:
+                    estado=20
+                    token = 'error'
+                    num = -1
                         
                     
             estado=0
@@ -188,27 +188,27 @@ def analizador(cadena):
     for elemento in elementos:
         if elemento['lexema']=="if":
             elemento['token']="condicional SI"
-            elemento['num']=9
+            elemento['num']=19
         if elemento['lexema']=="while":
             elemento['token']="While"
-            elemento['num']=10
+            elemento['num']=20
         if elemento['lexema']=="return":
             elemento['token']="Return"
-            elemento['num']=11
+            elemento['num']=21
         if elemento['lexema']=="else":
             elemento['token']="Else"
-            elemento['num']=12
+            elemento['num']=22
         if elemento['lexema']=="int":
             elemento['token']="Tipo de dato"
-            elemento['num']=0
+            elemento['num']=4
         if elemento['lexema']=="float":
             elemento['token']="Tipo de dato"
-            elemento['num']=0
+            elemento['num']=4
         if elemento['lexema']=="char":
             elemento['token']="Tipo de dato"
-            elemento['num']=0
+            elemento['num']=4
         if elemento['lexema']=="void":
             elemento['token']="Tipo de dato"
-            elemento['num']=0
+            elemento['num']=4
 
     return elementos
