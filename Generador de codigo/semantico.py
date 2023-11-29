@@ -16,7 +16,8 @@ def get_termino(termino):
             except AttributeError:
                 for b in variables:
                     if(b["id"]==termino.identificador):
-                        valor = b["valor"]
+                        #valor = b["valor"]
+                        valor = termino.identificador + "_" + b["contexto"]
     return valor
 
 def sum(expresion):
@@ -38,18 +39,20 @@ def sum(expresion):
             except AttributeError:
                 sub_op = None
     if(sub_op == "+"):
-        b = sum(expresion.Expresion2)
+        #b = sum(expresion.Expresion2)
+        sum(expresion.Expresion2)
     elif(sub_op == "-"):
-        b = res(expresion.Expresion2)
+        #b = res(expresion.Expresion2)
+        res(expresion.Expresion2)
     elif(sub_op == "*"):
-        b = mul(expresion.Expresion2)
+        #b = mul(expresion.Expresion2)
+        mul(expresion.Expresion2)
     elif(sub_op == "/"):
-        b = div(expresion.Expresion2)
-    elif(termino):
-        b = get_termino(termino)
+        #b = div(expresion.Expresion2)
+        div(expresion.Expresion2)
     print("MOV BX,",a)
     print("ADD AX,BX")
-    return(a+b)
+    #return(a+b)
 
 def res(expresion):
     a=0
@@ -70,18 +73,20 @@ def res(expresion):
             except AttributeError:
                 sub_op = None
     if(sub_op == "+"):
-        b = sum(expresion.Expresion2)
+        #b = sum(expresion.Expresion2)
+        sum(expresion.Expresion2)
     elif(sub_op == "-"):
-        b = res(expresion.Expresion2)
+        #b = res(expresion.Expresion2)
+        res(expresion.Expresion2)
     elif(sub_op == "*"):
-        b = mul(expresion.Expresion2)
+        #b = mul(expresion.Expresion2)
+        mul(expresion.Expresion2)
     elif(sub_op == "/"):
-        b = div(expresion.Expresion2)
-    elif(termino):
-        b = get_termino(termino)
+        #b = div(expresion.Expresion2)
+        div(expresion.Expresion2)
     print("MOV BX,",a)
     print("SUB AX,BX")
-    return(a-b)
+    #return(a-b)
 
 def mul(expresion):
     a=0
@@ -102,18 +107,20 @@ def mul(expresion):
             except AttributeError:
                 sub_op = None
     if(sub_op == "+"):
-        b = sum(expresion.Expresion2)
+        #b = sum(expresion.Expresion2)
+        sum(expresion.Expresion2)
     elif(sub_op == "-"):
-        b = res(expresion.Expresion2)
+        #b = res(expresion.Expresion2)
+        res(expresion.Expresion2)
     elif(sub_op == "*"):
-        b = mul(expresion.Expresion2)
+        #b = mul(expresion.Expresion2)
+        mul(expresion.Expresion2)
     elif(sub_op == "/"):
-        b = div(expresion.Expresion2)
-    elif(termino):
-        b = get_termino(termino)
+        #b = div(expresion.Expresion2)
+        div(expresion.Expresion2)
     print("MOV BX,",a)
     print("MUL BX")
-    return(a*b)
+    #return(a*b)
 
 def div(expresion):
     a=0
@@ -134,24 +141,28 @@ def div(expresion):
             except AttributeError:
                 sub_op = None
     if(sub_op == "+"):
-        b = sum(expresion.Expresion2)
+        #b = sum(expresion.Expresion2)
+        sum(expresion.Expresion2)
     elif(sub_op == "-"):
-        b = res(expresion.Expresion2)
+        #b = res(expresion.Expresion2)
+        res(expresion.Expresion2)
     elif(sub_op == "*"):
-        b = mul(expresion.Expresion2)
+        #b = mul(expresion.Expresion2)
+        mul(expresion.Expresion2)
     elif(sub_op == "/"):
-        b = div(expresion.Expresion2)
-    elif(termino):
-        b = get_termino(termino)
+        #b = div(expresion.Expresion2)
+        div(expresion.Expresion2)
     print("MOV BX,",a)
     print("DIV BX")
-    return(a*b)
+    #return(a*b)
 
 def analizador(arbol):
     #print(arbol)
     global variables
     global funciones
     arbol_2 = arbol
+    print(";-----------------------------------")
+    print(".DATA")
     if (arbol):
         arbol = arbol.Definiciones
         while(arbol):                   ##PARA DESPLAZARSE EN DEFINICIONES
@@ -165,7 +176,8 @@ def analizador(arbol):
             if(defvar):
                 tipo = defvar.tipo
                 while(defvar):
-                    variables.append({'id':defvar.identificador,'tipo':tipo,'valor':None,'contexto':"#"})
+                    variables.append({'id':defvar.identificador,'tipo':tipo,'valor':None,'contexto':"global"})
+                    print(defvar.identificador,"_global DW ?",sep="")
                     try:
                         defvar = defvar.ListaVar.extra
                     except AttributeError:
@@ -187,6 +199,7 @@ def analizador(arbol):
                     param = deffun.Parametros
                 while(param):
                     variables.append({'id':param.identificador,'tipo':param.tipo,'valor':None,'contexto':funcion})
+                    print(param.identificador,"_" , funcion , " DW ?",sep="")
                     try:
                         param = param.ListaParam.extra
                     except AttributeError:
@@ -205,6 +218,7 @@ def analizador(arbol):
                         tipo = defvar.tipo
                         while(defvar):
                             variables.append({'id':defvar.identificador,'tipo':tipo,'valor':None,'contexto':funcion})
+                            print(defvar.identificador,"_" , funcion , " DW ?",sep="")
                             try:
                                 defvar = defvar.ListaVar.extra
                             except AttributeError:
@@ -221,6 +235,11 @@ def analizador(arbol):
             except AttributeError:
                 arbol = arbol.Definiciones
 
+    print(";-----------------------------------")
+    print(".CODE")
+    print("BEGIN PROC FAR")
+    print("MOV AX,@DATA")
+    print("MOV DS,AX")
 
     if(arbol_2):
         arbol_2 = arbol_2.Definiciones
@@ -256,6 +275,8 @@ def analizador(arbol):
                             for a in variables:
                                 if(a["id"]==id):
                                     a["valor"] = get_termino(expresion)
+                                    print("MOV CX,",get_termino(expresion))
+                                    print("MOV ",id,"_",a["contexto"]," , CX",sep="")
                         ###########################################################################
 
                         #########################OPERACIONES ARITMETICAS###########################
@@ -272,19 +293,27 @@ def analizador(arbol):
                         if(operacion == "+"):
                             for i in variables:
                                 if(i["id"] == id):
-                                    i["valor"]=sum(expresion)
+                                    #i["valor"]=sum(expresion)
+                                    sum(expresion)
+                                    print("MOV ",id,"_",i["contexto"]," , AX",sep="")
                         elif(operacion == "-"):
                             for i in variables:
                                 if(i["id"] == id):
-                                    i["valor"]=res(expresion)
+                                    #i["valor"]=res(expresion)
+                                    res(expresion)
+                                    print("MOV ",id,"_",i["contexto"]," , AX",sep="")
                         elif(operacion == "*"):
                             for i in variables:
                                 if(i["id"] == id):
-                                    i["valor"]=mul(expresion)
+                                    #i["valor"]=mul(expresion)
+                                    mul(expresion)
+                                    print("MOV ",id,"_",i["contexto"]," , AX",sep="")
                         elif(operacion == "/"):
                             for i in variables:
                                 if(i["id"] == id):
-                                    i["valor"]=div(expresion)
+                                    #i["valor"]=div(expresion)
+                                    div(expresion)
+                                    print("MOV ",id,"_",i["contexto"]," , AX",sep="")
                         ###########################################################################
 
                     try:
@@ -309,15 +338,15 @@ def analizador(arbol):
                         print("CMP AX,BX")
                         
                         if(operando == "=="):
-                            print("JE etiqueta")
+                            print("JE ETIQ_CUMP")
                         elif(operando == ">"):
-                            print("JA etiqueta")
+                            print("JA ETIQ_CUMP")
                         elif(operando == ">="):
-                            print("JAE etiqueta")
+                            print("JAE ETIQ_CUMP")
                         elif(operando == "<"):
-                            print("JB etiqueta")
+                            print("JB ETIQ_CUMP")
                         elif(operando == "<="):
-                            print("JBE etiqueta")
+                            print("JBE ETIQ_CUMP")
 
                     try:
                         bloc = bloc.DefLocales.extra
