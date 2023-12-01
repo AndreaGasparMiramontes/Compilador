@@ -1,5 +1,8 @@
 variables = []
 funciones = []
+num_if = 0
+num_if_cump = 0
+num_if_nocump = 0
 
 def get_termino(termino):
     global variables
@@ -156,10 +159,111 @@ def div(expresion):
     print("DIV BX")
     #return(a*b)
 
+def describir_if(condicion):
+    global num_if
+    num_if+=1
+    try:
+        operando = condicion.opIgualdad
+    except AttributeError:
+        try:
+            operando = condicion.opRelac
+        except AttributeError:
+            operando = None
+
+    a = get_termino(condicion.Expresion.Termino)
+    b = get_termino(condicion.Expresion2.Termino)
+    print("MOV AX,",a)
+    print("MOV BX,",b)
+    print("CMP AX,BX")
+    
+    if(operando == "=="):
+        print("JE ETIQ_CUMP",num_if,sep="")
+        print("JMP ETIQ_NOCUMP",num_if,sep="")
+    elif(operando == ">"):
+        print("JA ETIQ_CUMP",num_if,sep="")
+        print("JMP ETIQ_NOCUMP",num_if,sep="")
+    elif(operando == ">="):
+        print("JAE ETIQ_CUMP",num_if,sep="")
+        print("JMP ETIQ_NOCUMP",num_if,sep="")
+    elif(operando == "<"):
+        print("JB ETIQ_CUMP",num_if,sep="")
+        print("JMP ETIQ_NOCUMP",num_if,sep="")
+    elif(operando == "<="):
+        print("JBE ETIQ_CUMP",num_if,sep="")
+        print("JMP ETIQ_NOCUMP",num_if,sep="")
+
+def condicion_or(sentencia):
+    global num_if_nocump
+    global num_if_cump
+    condicion1 = sentencia.Expresion
+    describir_if(condicion1)
+    num_if_nocump+=1
+    print("ETIQ_NOCUMP",num_if_nocump,":",sep="")
+
+    condicion2 = sentencia.Expresion2
+    try:
+        operando = condicion2.opOr
+    except AttributeError:
+        try:
+            operando = condicion2.opAnd
+        except AttributeError:
+            operando = None
+    
+    if(operando == "&&"):
+        condicion_and(condicion2)
+    elif(operando == "||"):
+        condicion_or(condicion2)
+    else:
+        describir_if(condicion2)
+        while(num_if_cump<=num_if_nocump):
+            num_if_cump+=1
+            print("ETIQ_CUMP",num_if_cump,":",sep="")
+        print("Sentencia bloque")
+        num_if_nocump+=1
+        print("ETIQ_NOCUMP",num_if_nocump,":",sep="")
+
+
+
+
+
+def condicion_and(sentencia):
+    global num_if_nocump
+    global num_if_cump
+    condicion1 = sentencia.Expresion
+    describir_if(condicion1)
+    num_if_cump+=1
+    print("ETIQ_CUMP",num_if_cump,":",sep="")
+
+    condicion2 = sentencia.Expresion2
+    try:
+        operando = condicion2.opOr
+    except AttributeError:
+        try:
+            operando = condicion2.opAnd
+        except AttributeError:
+            operando = None
+    
+    if(operando == "&&"):
+        condicion_and(condicion2)
+    elif(operando == "||"):
+        condicion_or(condicion2)
+    else:
+        describir_if(condicion2)
+        num_if_cump+=1
+        print("ETIQ_CUMP",num_if_cump,":",sep="")
+        print("Sentencia bloque")
+        num_if_nocump+=1
+        while(num_if_nocump<=num_if_cump):
+            print("ETIQ_NOCUMP",num_if_nocump,":",sep="")
+            num_if_nocump+=1
+
+
 def analizador(arbol):
     #print(arbol)
     global variables
     global funciones
+    global num_if_cump
+    global num_if_nocump
     arbol_2 = arbol
     print(";-----------------------------------")
     print(".DATA")
@@ -317,36 +421,31 @@ def analizador(arbol):
                         ###########################################################################
 
                     try:
-                        sentencia = bloc.DefLocal.Sentencia.palabraif     ##Se verifica que se tenga una sentencia de asignacion
+                        sentencia = bloc.DefLocal.Sentencia.palabraif     ##Se verifica que se tenga una sentencia de if
                         sentencia = bloc.DefLocal.Sentencia
                     except AttributeError:
                         sentencia = None
                     if(sentencia):
                         condicion = sentencia.Expresion
                         try:
-                            operando = condicion.opIgualdad
+                            operando = condicion.opOr
                         except AttributeError:
                             try:
-                                operando = condicion.opRelac
+                                operando = condicion.opAnd
                             except AttributeError:
                                 operando = None
-
-                        a = get_termino(condicion.Expresion.Termino)
-                        b = get_termino(condicion.Expresion2.Termino)
-                        print("MOV AX,",a)
-                        print("MOV BX,",b)
-                        print("CMP AX,BX")
                         
-                        if(operando == "=="):
-                            print("JE ETIQ_CUMP")
-                        elif(operando == ">"):
-                            print("JA ETIQ_CUMP")
-                        elif(operando == ">="):
-                            print("JAE ETIQ_CUMP")
-                        elif(operando == "<"):
-                            print("JB ETIQ_CUMP")
-                        elif(operando == "<="):
-                            print("JBE ETIQ_CUMP")
+                        if(operando == "&&"):
+                            condicion_and(condicion)
+                        elif(operando == "||"):
+                            condicion_or(condicion)
+                        else:
+                            describir_if(condicion)
+                            num_if_cump+=1
+                            print("ETIQ_CUMP",num_if_cump,":",sep="")
+                            print("Sentencia bloque")
+                            num_if_nocump+=1
+                            print("ETIQ_NOCUMP",num_if_nocump,":",sep="")
 
                     try:
                         bloc = bloc.DefLocales.extra
@@ -372,11 +471,4 @@ def analizador(arbol):
         print(a["id"],"\t",a["tipo"],"\t",a["valor"],"\t",a["contexto"])
 
 
-# NOTAS PORQUE ESTOY VIENDO COMO HACER EL if
-# CMP PARA COMPARAR QUE ESTÁ PASANDO
-# CMP AX,BX
-# JE ES PARA COMPARAR SI SON IGUALES
-# JA SI ES MAYOR (AX>BX)
-# JAE SI ES MAYOR O IGUAL (AX>=BX)
-# JB SI ES MENOR (AX<BX)
-# JBE SI ES MENOR O IGUAL (AX<=BX)
+#Sigue sentencia bloque del if... D:
