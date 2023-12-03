@@ -14,5 +14,10 @@ archivo.close()
 print(texto)
 elementos = lexico.analizador(texto)
 arbol = sintactico.analizador(elementos)
+try:
+    f = open("codigo.asm", "x")
+    f.close()
+except:
+    pass
 semantico.analizador(arbol)
 
