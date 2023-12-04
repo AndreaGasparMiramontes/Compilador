@@ -197,11 +197,12 @@ def sum(expresion):
     b=0
     termino = expresion.Expresion.Termino
     a = get_termino(termino)
+    codigo_asm = codigo_asm + "\nMOV AX," + str(a)
     
     try:
         termino = expresion.Expresion2.Termino
         sub_op = None
-        codigo_asm = codigo_asm + "\nMOV AX," + str(get_termino(termino))
+        codigo_asm = codigo_asm + "\nMOV BX," + str(get_termino(termino))
     except AttributeError:
         try:
             sub_op = expresion.Expresion2.opSum
@@ -222,7 +223,6 @@ def sum(expresion):
     elif(sub_op == "/"):
         #b = div(expresion.Expresion2)
         div(expresion.Expresion2)
-    codigo_asm = codigo_asm + "\nMOV BX," + str(a)
     codigo_asm = codigo_asm + "\nADD AX,BX"
     #return(a+b)
 
@@ -232,11 +232,12 @@ def res(expresion):
     b=0
     termino = expresion.Expresion.Termino
     a = get_termino(termino)
-    
+    codigo_asm = codigo_asm + "\nMOV AX," + str(a)
+
     try:
         termino = expresion.Expresion2.Termino
         sub_op = None
-        codigo_asm = codigo_asm + "\nMOV AX," + str(get_termino(termino))
+        codigo_asm = codigo_asm + "\nMOV BX," + str(get_termino(termino))
     except AttributeError:
         try:
             sub_op = expresion.Expresion2.opSum
@@ -257,7 +258,7 @@ def res(expresion):
     elif(sub_op == "/"):
         #b = div(expresion.Expresion2)
         div(expresion.Expresion2)
-    codigo_asm = codigo_asm + "\nMOV BX," + str(a)
+    
     codigo_asm = codigo_asm + "\nSUB AX,BX"
     #return(a-b)
 
@@ -267,11 +268,12 @@ def mul(expresion):
     b=0
     termino = expresion.Expresion.Termino
     a = get_termino(termino)
-    
+    codigo_asm = codigo_asm + "\nMOV AX," + str(a)
+
     try:
         termino = expresion.Expresion2.Termino
         sub_op = None
-        codigo_asm = codigo_asm + "\nMOV AX," + str(get_termino(termino))
+        codigo_asm = codigo_asm + "\nMOV BX," + str(get_termino(termino))
     except AttributeError:
         try:
             sub_op = expresion.Expresion2.opSum
@@ -292,7 +294,6 @@ def mul(expresion):
     elif(sub_op == "/"):
         #b = div(expresion.Expresion2)
         div(expresion.Expresion2)
-    codigo_asm = codigo_asm + "\nMOV BX," + str(a)
     codigo_asm = codigo_asm + "\nMUL BX"
     #return(a*b)
 
@@ -302,11 +303,12 @@ def div(expresion):
     b=0
     termino = expresion.Expresion.Termino
     a = get_termino(termino)
-    
+    codigo_asm = codigo_asm + "\nMOV AX," + str(a)
+
     try:
         termino = expresion.Expresion2.Termino
         sub_op = None
-        codigo_asm = codigo_asm + "\nMOV AX," + str(get_termino(termino))
+        codigo_asm = codigo_asm + "\nMOV BX," + str(get_termino(termino))
     except AttributeError:
         try:
             sub_op = expresion.Expresion2.opSum
@@ -327,7 +329,7 @@ def div(expresion):
     elif(sub_op == "/"):
         #b = div(expresion.Expresion2)
         div(expresion.Expresion2)
-    codigo_asm = codigo_asm + "\nMOV BX," + str(a)
+    
     codigo_asm = codigo_asm + "\nDIV BX"
     #return(a*b)
 
