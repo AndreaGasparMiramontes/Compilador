@@ -4,7 +4,21 @@ num_if = 0
 num_if_cump = 0
 num_if_nocump = 0
 exit_num = 1
+return_num = 1
 codigo_asm = ""
+
+def evaluar_bloque(bloque):
+    try:
+        sentencias = bloque.Sentencias.extra
+    except AttributeError:
+        sentencias = bloque.Sentencias
+    while(sentencias):
+        sentencia = sentencias.Sentencia
+        get_sentencia(sentencia)
+        try:
+            sentencias = sentencias.Sentencias.extra
+        except AttributeError:
+            sentencias = sentencias.Sentencias
 
 def sentencia_bloque(sentencia_bloque):
     sentencia = None
@@ -16,18 +30,18 @@ def sentencia_bloque(sentencia_bloque):
     if(sentencia):
         get_sentencia(sentencia)
     elif(bloque):
-        try:
-            sentencias = bloque.Sentencias.extra
-        except AttributeError:
-            sentencias = bloque.Sentencias
-        #print(sentencias)
-        while(sentencias):
-            sentencia = sentencias.Sentencia
-            get_sentencia(sentencia)
-            try:
-                sentencias = sentencias.Sentencias.extra
-            except AttributeError:
-                sentencias = sentencias.Sentencias
+        evaluar_bloque(bloque)
+        # try:
+        #     sentencias = bloque.Sentencias.extra
+        # except AttributeError:
+        #     sentencias = bloque.Sentencias
+        # while(sentencias):
+        #     sentencia = sentencias.Sentencia
+        #     get_sentencia(sentencia)
+        #     try:
+        #         sentencias = sentencias.Sentencias.extra
+        #     except AttributeError:
+        #         sentencias = sentencias.Sentencias
     
 
 def get_sentencia(sentencia_origen):
@@ -117,13 +131,44 @@ def get_sentencia(sentencia_origen):
             num_if_cump+=1
             codigo_asm = codigo_asm + "\nETIQ_CUMP" + str(num_if_cump) + ":"
             sentencia_bloque(sentencia.SentenciaBloque)
-            codigo_asm = codigo_asm + "\nJMP EXIT" + exit_num
+            codigo_asm = codigo_asm + "\nJMP EXIT" + str(exit_num)
             num_if_nocump+=1
             codigo_asm = codigo_asm + "\nETIQ_NOCUMP" + str(num_if_nocump) + ":"
         if(sentencia.Otro):
             sentencia_bloque(sentencia.Otro.SentenciaBloque)
         codigo_asm = codigo_asm + "\nEXIT" + str(exit_num) + ":"
         exit_num+=1
+        ###########################################################################
+    try:
+        sentencia = sentencia_origen.palabrawhile     ##Se verifica que se tenga una sentencia de while
+        sentencia = sentencia_origen
+    except AttributeError:
+        sentencia = None
+        ###############################WHILE########################################
+    if(sentencia):
+        condicion = sentencia.Expresion
+        try:
+            operando = condicion.opOr
+        except AttributeError:
+            try:
+                operando = condicion.opAnd
+            except AttributeError:
+                operando = None
+        
+        if(operando == "&&"):
+            condicion_and(condicion,sentencia.Bloque)
+        elif(operando == "||"):
+            condicion_or(condicion,sentencia.Bloque)
+        else:
+            exit_num+=1
+            codigo_asm = codigo_asm + "\nEXIT" + str(exit_num) + ":"
+            describir_if(condicion)
+            num_if_cump+=1
+            codigo_asm = codigo_asm + "\nETIQ_CUMP" + str(num_if_cump) + ":"
+            evaluar_bloque(sentencia.Bloque)
+            codigo_asm = codigo_asm + "\nJMP EXIT" + str(exit_num)
+            num_if_nocump+=1
+            codigo_asm = codigo_asm + "\nETIQ_NOCUMP" + str(num_if_nocump) + ":"
         ###########################################################################
 
 
